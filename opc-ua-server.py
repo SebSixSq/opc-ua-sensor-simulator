@@ -22,7 +22,7 @@ async def main():
     # setup our server
     server = Server()
     await server.init()
-    server.set_endpoint('opc.tcp://127.0.0.1:4840/opcua/')
+    server.set_endpoint('opc.tcp://0.0.0.0:4840/opcua/')
     server.set_server_name("DevNet OPC-UA Test Server")
 
     # setup our own namespace, not really necessary but should as spec
@@ -32,8 +32,8 @@ async def main():
     # populating our address space
     # server.nodes, contains links to very common nodes like objects and root
     obj_vplc = await server.nodes.objects.add_object(idx, 'vPLC1')
-    var_temperature = await obj_vplc.add_variable(idx, 'temperature', 0)
-    var_pressure = await obj_vplc.add_variable(idx, 'pressure', 0)
+    var_temperature = await obj_vplc.add_variable(idx, 'temperature', 0, ua.VariantType.Float)
+    var_pressure = await obj_vplc.add_variable(idx, 'pressure', 0, ua.VariantType.Float)
     var_pumpsetting = await obj_vplc.add_variable(idx, 'pumpsetting', 0)
 
     # Read Sensor Data from Kaggle
@@ -60,7 +60,7 @@ async def main():
 
 if __name__ == '__main__':
     #python 3.6 or lower
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())
+    #loop = asyncio.get_event_loop()
+    #loop.run_until_complete(main())
     #python 3.7 onwards (comment lines above)
-    #asyncio.run(main())
+    asyncio.run(main())
